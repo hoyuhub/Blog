@@ -10,6 +10,10 @@ namespace Blog.Controllers
 {
     public class LogController : Controller
     {
-        
+        public void SetLog()
+        {
+           
+
+        }
     }
 }
