@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using log4net;
 
 namespace Blog
 {
     public class Startup
     {
+        public static ILoggerRepository repository{get;set;}
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
