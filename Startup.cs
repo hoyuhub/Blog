@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using log4net.Repository;
 using log4net;
+using log4net.Config;
+using System.IO;
 
 namespace Blog
 {
@@ -16,6 +19,10 @@ namespace Blog
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            //加载log4net日志配置文件
+            repository = LogManager.CreateRepository("NETCoreRepository");
+            XmlConfigurator.Configure(repository, new FileInfo("log4net.config"));
         }
 
         public IConfiguration Configuration { get; }

@@ -8,7 +8,7 @@ using Blog.Models;
 using Blog.Common;
 namespace Blog.Controllers
 {
-    public class LogController : Controller
+    public class LogController : BaseController
     {
         public void SetLog()
         {
