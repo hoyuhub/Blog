@@ -10,6 +10,6 @@ namespace Blog.Controllers
 {
     public class BaseController : Controller
     {
-        protected ILog log = LogManager.GetLogger(Startup.repository.Name, typeof(HttpGlobalExceptionFilter));
+        protected static ILog log = LogManager.GetLogger(Startup.repository.Name, typeof(HttpGlobalExceptionFilter));
     }
 }
