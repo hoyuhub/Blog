@@ -13,8 +13,9 @@ namespace Blog.Controllers
     {
         public IActionResult Index()
         {
-            RedisCommon.SetBLog(new BLogModel("标题","小猿",DateTime.Now,"这里的山路十八弯"));
+            //RedisCommon.SetBLog(new BLogModel("标题","小猿",DateTime.Now,"这里的山路十八弯"));
             // Dictionary<string, string> dictionary = RedisCommon.GetConnection().GetDatabase().HashGetAll("weather:WJX5GH5PYG5R").ToDic();
+            RedisCommon.SetSlugToId("testtest","test");
             return View();
         }
 

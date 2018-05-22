@@ -7,7 +7,7 @@ namespace Blog.Models
 {
     public class BLogModel
     {
-        public BLogModel(string title, string author, DateTime time, string content)
+        public BLogModel(string title, string author, DateTime time, string content, string slug)
         {
             bool flag = true;
             if (!title.IsNullOrEmpty())
@@ -19,21 +19,26 @@ namespace Blog.Models
                 this.author = author;
             else
                 flag = false;
-            
+
             if (time == null)
                 flag = false;
             else
                 this.time = time;
-            
+
             if (!content.IsNullOrEmpty())
                 this.content = content;
             else
                 flag = false;
 
-                if(flag==false)
-                {
-                    throw new ApplicationException("创建BLogModel实体有必填字段为空");
-                }
+            if (!slug.IsNullOrEmpty())
+                this.slug = slug;
+            else
+                flag = false;
+
+            if (flag == false)
+            {
+                throw new ApplicationException("创建BLogModel实体有必填字段为空");
+            }
         }
         public string title { get; set; }
 
@@ -42,5 +47,7 @@ namespace Blog.Models
         public DateTime time { get; set; }
 
         public string content { get; set; }
+
+        public string slug { get; set; }
     }
 }

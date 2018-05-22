@@ -48,7 +48,7 @@ namespace Blog.Common
             dic.Add("author", bLog.author);
             dic.Add("time", bLog.time.ToString());
             dic.Add("content", bLog.content);
-
+            dic.Add("slug",bLog.slug);
             try
             {
                 GetData().HashSet("post:"+postCount, dic.ToHashEntry());
@@ -73,6 +73,7 @@ namespace Blog.Common
 
         public static bool SetSlugToId(string slug, string id)
         {
+            //判断缩略名和博客ID的对应关系是否存在
             if (!GetData().HashExists("slug.to.id", slug))
             {
                 GetData().HashSet("slug.to.id", slug, id);
