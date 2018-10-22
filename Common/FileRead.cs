@@ -30,7 +30,7 @@ namespace Blog.Common
                 {
                     string hosCode="T113001";
                     string key=string.Format("{0}:deptone",hosCode);
-                    RedisCommon.GetData().HashSet();
+                    // RedisCommon.GetData().HashSet();
                 }
             }
         }

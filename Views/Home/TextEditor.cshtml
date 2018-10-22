@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "TextEditor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/editor.md-master/css/editormd.css" rel="stylesheet" />
+<script src="~/editor.md-master/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = editormd("editormd", {
+            path: "../editor.md-master/lib/" // Autoload modules mode, codemirror, marked... dependents libs path
+        });
+
+        /*
+        // or
+        var editor = editormd({
+            id   : "editormd",
+            path : "../lib/"
+        });
+        */
+    });
+</script>
+<div style="height:10000px;">
+    <div id="editormd">
+        <textarea style="display:none;">### Hello Editor.md !</textarea>
+    </div>
+</div>
