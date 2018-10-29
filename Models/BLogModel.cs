@@ -10,28 +10,28 @@ namespace Blog.Models
         public BLogModel(string title, string author, DateTime time, string content, string slug)
         {
             bool flag = true;
-            if (!title.IsNullOrEmpty())
-                this.title = title;
+            if (!string.IsNullOrEmpty(title))
+                this.Title = title;
             else
                 flag = false;
 
-            if (!author.IsNullOrEmpty())
-                this.author = author;
+            if (!string.IsNullOrEmpty(title))
+                this.Author = author;
             else
                 flag = false;
 
             if (time == null)
                 flag = false;
             else
-                this.time = time;
+                this.Time = time;
 
-            if (!content.IsNullOrEmpty())
-                this.content = content;
+            if (!string.IsNullOrEmpty(content))
+                this.Content = content;
             else
                 flag = false;
 
-            if (!slug.IsNullOrEmpty())
-                this.slug = slug;
+            if (!string.IsNullOrEmpty(slug))
+                this.Slug = slug;
             else
                 flag = false;
 
@@ -40,14 +40,14 @@ namespace Blog.Models
                 throw new ApplicationException("创建BLogModel实体有必填字段为空");
             }
         }
-        public string title { get; set; }
+        public string Title { get; set; }
 
-        public string author { get; set; }
+        public string Author { get; set; }
 
-        public DateTime time { get; set; }
+        public DateTime Time { get; set; }
 
-        public string content { get; set; }
+        public string Content { get; set; }
 
-        public string slug { get; set; }
+        public string Slug { get; set; }
     }
 }

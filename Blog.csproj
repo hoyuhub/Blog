@@ -21,6 +21,7 @@
 
 
   <ItemGroup>
+    <Folder Include="logfile\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
