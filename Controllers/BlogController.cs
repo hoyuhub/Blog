@@ -12,5 +12,7 @@ namespace Blog.Controllers
         {
             return View();
         }
+
+
     }
 }

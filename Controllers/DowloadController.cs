@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatabaseUtils;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,11 +13,19 @@ namespace Blog.Controllers
     [Route("api/[controller]")]
     public class DowloadController : Controller
     {
+
+        private MySqlDbContext DbContext;
+        public DowloadController(MySqlDbContext mysqlDb)
+        {
+            this.DbContext = mysqlDb;
+        }
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string Get()
         {
-            return new string[] { "value1", "value2" };
+            return JsonConvert.SerializeObject(DbContext.Cnblogs.Skip(10 * (1 - 1)).Take(10).ToList());
+
+            //return new string[] { "value1", "value2" };
         }
 
         // GET api/<controller>/5

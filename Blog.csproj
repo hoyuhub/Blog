@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="logfile\**" />
+    <Content Remove="logfile\**" />
+    <EmbeddedResource Remove="logfile\**" />
+    <None Remove="logfile\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\css\site.css" />
     <Content Remove="wwwroot\css\site.min.css" />
   </ItemGroup>
@@ -23,8 +30,16 @@
 
 
   <ItemGroup>
-    <Folder Include="logfile\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyTools\DatabaseUtils\DatabaseUtils.csproj" />
+    <ProjectReference Include="..\MyTools\Models\Models.csproj" />
+  </ItemGroup>
+
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="http://json.schemastore.org/appveyor" /></VisualStudio></ProjectExtensions>
 
 </Project>

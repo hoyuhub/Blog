@@ -10,12 +10,13 @@ using log4net.Repository;
 using log4net;
 using log4net.Config;
 using System.IO;
+using DatabaseUtils;
 
 namespace Blog
 {
     public class Startup
     {
-        public static ILoggerRepository repository{get;set;}
+        public static ILoggerRepository repository { get; set; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +32,9 @@ namespace Blog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            //配置DbContext注入
+            services.AddTransient<MySqlDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
