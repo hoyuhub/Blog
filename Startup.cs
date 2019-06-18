@@ -34,7 +34,9 @@ namespace Blog
             services.AddMvc();
 
             //配置DbContext注入
+            services.AddTransient<CnblogDAL>();
             services.AddTransient<MySqlDbContext>();
+            services.AddTransient<RedisCommon>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

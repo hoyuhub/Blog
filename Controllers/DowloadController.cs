@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using DatabaseUtils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net;
+using Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,18 +16,62 @@ namespace Blog.Controllers
     public class DowloadController : Controller
     {
 
-        private MySqlDbContext DbContext;
-        public DowloadController(MySqlDbContext mysqlDb)
+        private CnblogDAL CnblogDal { get; }
+        private RedisCommon RedisCommon { get; }
+        public DowloadController(CnblogDAL cnblogDal, RedisCommon redisCommon)
         {
-            this.DbContext = mysqlDb;
+            this.CnblogDal = cnblogDal;
+            this.RedisCommon = redisCommon;
         }
         // GET: api/<controller>
         [HttpGet]
         public string Get()
         {
-            return JsonConvert.SerializeObject(DbContext.Cnblogs.Skip(10 * (1 - 1)).Take(10).ToList());
+            Dictionary<string, object> resultDic = new Dictionary<string, object>();
+            bool result = false;
+            string error = string.Empty;
+            try
+            {
+                int count = CnblogDal.GetCount();
 
-            //return new string[] { "value1", "value2" };
+                int forCount = (count / 100) + (count % 100 == 0 ? 0 : 1);
+                for (int i = 1; i < forCount + 1; i++)
+                {
+                    List<Cnblog> cnBlogList = CnblogDal.GetPage(i);
+                    DownloadHtml(cnBlogList);
+                }
+                result = true;
+
+            }
+            catch (Exception e)
+            {
+                error = e.Message;
+            }
+
+            resultDic.Add("result", result);
+            if (!result) resultDic.Add("error", error);
+            return JsonConvert.SerializeObject(resultDic);
+        }
+
+        public bool DownloadHtml(List<Cnblog> list)
+        {
+
+            foreach (var item in list)
+            {
+                try
+                {
+
+                    WebClient webClient = new WebClient();
+                    Uri uri = new Uri(item.Href);
+                    RedisCommon.GetData().HashSet("cnblog:html", item.Id, webClient.DownloadString(uri));
+                }
+                catch (Exception e)
+                {
+                    //TODO log
+
+                }
+            }
+            return true;
         }
 
         // GET api/<controller>/5
