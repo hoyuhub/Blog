@@ -36,7 +36,7 @@ namespace Blog
             //配置DbContext注入
             services.AddTransient<CnblogDAL>();
             services.AddTransient<MySqlDbContext>();
-            services.AddTransient<RedisCommon>();
+            services.AddSingleton<RedisCommon>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +57,7 @@ namespace Blog
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=blog}/{action=home}/{id?}");
             });
         }
     }

@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Models.Cnblog>
+@{
+    ViewData["Title"] = "Home";
+}
+<div class="row col-md-8 col-md-offset-2">
+    @foreach (var item in Model)
+    {
+
+        <div class="panel panel-success">
+            <div class="panel-heading" >
+                <a href="~/blog/blog?id=@item.Id">
+                    @item.Title;
+                </a>
+
+            </div>
+            <div class="panel-body">
+                @item.Summary
+            </div>
+        </div>
+    }
+
+</div>

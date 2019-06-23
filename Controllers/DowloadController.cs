@@ -7,22 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
 using Models;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Blog.Controllers
 {
     [Route("api/[controller]")]
-    public class DowloadController : Controller
+    public class DowloadController : BaseController
     {
 
-        private CnblogDAL CnblogDal { get; }
-        private RedisCommon RedisCommon { get; }
-        public DowloadController(CnblogDAL cnblogDal, RedisCommon redisCommon)
+        private IHostingEnvironment _hostingEnvironment { get; }
+
+        public DowloadController(CnblogDAL cnblogDal, RedisCommon redisCommon, IHostingEnvironment hostingEnvironment) : base(cnblogDal, redisCommon)
         {
-            this.CnblogDal = cnblogDal;
-            this.RedisCommon = redisCommon;
+            _hostingEnvironment = hostingEnvironment;
         }
+
         // GET: api/<controller>
         [HttpGet]
         public string Get()
@@ -55,22 +57,44 @@ namespace Blog.Controllers
 
         public bool DownloadHtml(List<Cnblog> list)
         {
-
-            foreach (var item in list)
+            try
             {
-                try
+                List<CnblogHtml> cnblogHtmlList = new List<CnblogHtml>();
+                string path = _hostingEnvironment.WebRootPath;
+                string downloadPath = path + "/download";
+                if (!Directory.Exists(downloadPath))
                 {
-
-                    WebClient webClient = new WebClient();
-                    Uri uri = new Uri(item.Href);
-                    RedisCommon.GetData().HashSet("cnblog:html", item.Id, webClient.DownloadString(uri));
+                    Directory.CreateDirectory(downloadPath);
                 }
-                catch (Exception e)
+
+                foreach (var item in list)
                 {
-                    //TODO log
+                    try
+                    {
 
+                        WebClient webClient = new WebClient();
+                        Uri uri = new Uri(item.Href);
+                        //string downloadStr = webClient.DownloadString(uri);
+                        //RedisCommon.GetData().HashSet("cnblog:html", item.Id, downloadStr);
+                        //cnblogHtmlList.Add(new CnblogHtml() { Id = item.Id, Html = downloadStr });
+
+
+                        webClient.DownloadFile(uri, downloadPath+"/"+item.Id+".html");
+                    }
+                    catch (Exception e)
+                    {
+                        log.ErrorFormat("下载HTML发生异常：{0}", e.Message);
+
+                    }
                 }
+
+                CnblogDal.InsertCnblogHtml(cnblogHtmlList);
             }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
             return true;
         }
 
